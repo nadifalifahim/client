@@ -1,4 +1,3 @@
-import { Button } from "@/components/ui/button";
 import {
   Table,
   TableBody,
@@ -8,15 +7,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import {
-  AlertCircle,
-  Circle,
-  CircleCheck,
-  Flame,
-  Image,
-  Leaf,
-  Waves,
-} from "lucide-react";
+
 import {
   Pagination,
   PaginationContent,
@@ -26,39 +17,23 @@ import {
   PaginationNext,
   PaginationPrevious,
 } from "@/components/ui/pagination";
+import { getStatusIcon } from "../../../helpers/statusIcon";
+import TicketUpdateDrawer from "./ticketUpdateDrawer";
+import { getAttachmentButton } from "@/helpers/attachmentButton";
+import { format } from "date-fns";
 
-const TableConfiguration = () => {
-  const getStatusIcon = (status: String) => {
-    switch (status) {
-      case "High":
-        return (
-          <div className="flex h-full justify-center">
-            <div className="flex gap-2 pl-3 pr-4 py-1 items-center bg-rose-500 rounded-full text-xs text-white">
-              <Flame className="h-4 w-4" /> High
-            </div>
-          </div>
-        );
-      case "Medium":
-        return (
-          <div className="flex h-full justify-center">
-            <div className="flex gap-2 px-4 py-1 items-center bg-orange-500 rounded-full text-xs text-white">
-              <Waves className="h-4 w-4" /> Medium
-            </div>
-          </div>
-        );
-      case "Low":
-        return (
-          <div className="flex h-full justify-center">
-            <div className="flex gap-2 px-4 py-1 items-center bg-background dark:bg-slate-800 rounded-full text-xs text-slate-700 dark:text-slate-100 border">
-              <Leaf className="h-4 w-4" /> Low
-            </div>
-          </div>
-        );
-      default:
-        return null;
-    }
-  };
+interface TableConfigurationProps {
+  tickets: any[];
+  error: string | null;
+  loading: boolean;
+}
 
+const TableConfiguration = ({
+  tickets,
+  error,
+  loading,
+}: TableConfigurationProps) => {
+  console.log(tickets);
   return (
     <div className="rounded-lg bg-white dark:bg-slate-700 drop-shadow-lg  backdrop-blur ">
       <Table>
@@ -86,7 +61,7 @@ const TableConfiguration = () => {
         </TableCaption>
         <TableHeader className="bg-white dark:bg-slate-800">
           <TableRow className="text-xs">
-            <TableHead className="text-center">#Ticket ID</TableHead>
+            <TableHead className="text-center  w-[200px]">#Ticket ID</TableHead>
             <TableHead className="text-center">Category</TableHead>
             <TableHead className="text-center">Reported on</TableHead>
             <TableHead className="text-center">Priority</TableHead>
@@ -97,53 +72,52 @@ const TableConfiguration = () => {
           </TableRow>
         </TableHeader>
         <TableBody>
-          <TableRow className="text-center">
-            <TableCell className="font-medium">INV001</TableCell>
-            <TableCell>OTP Issue</TableCell>
-            <TableCell>20 July, 2024</TableCell>
-            <TableCell>{getStatusIcon("Low")}</TableCell>
-            <TableCell>Sales Ops</TableCell>
-            <TableCell>Open</TableCell>
-            <TableCell>
-              <Button
-                variant="outline"
-                type="button"
-                className="rounded-lg dark:bg-slate-800"
-              >
-                <Image className="h-4 w-4 mr-2 text-slate-500"></Image> View
-              </Button>
-            </TableCell>
-            <TableCell className="max-w-[100px]">
-              <Button variant="outline" type="button" className="rounded-lg">
-                <AlertCircle className="h-4 w-4 mr-2 text-orange-500"></AlertCircle>{" "}
-                Respond
-              </Button>
-            </TableCell>
-          </TableRow>
-          <TableRow className="text-center">
-            <TableCell className="font-medium">INV001</TableCell>
-            <TableCell>OTP Issue</TableCell>
-            <TableCell>20 July, 2024</TableCell>
-            <TableCell>{getStatusIcon("High")}</TableCell>
-            <TableCell>Sales Ops</TableCell>
-            <TableCell>Open</TableCell>
-            <TableCell>
-              <Button
-                variant="outline"
-                type="button"
-                disabled
-                className="rounded-lg"
-              >
-                <Image className="h-4 w-4 mr-2 text-slate-500"></Image> View
-              </Button>
-            </TableCell>
-            <TableCell className="max-w-[100px]">
-              <Button variant="outline" type="button" className="rounded-lg">
-                <CircleCheck className="h-4 w-4 mr-2 text-green-500"></CircleCheck>{" "}
-                Review
-              </Button>
-            </TableCell>
-          </TableRow>
+          {tickets.length === 0 ? (
+            <TableRow>
+              <TableCell colSpan={8} className="text-center py-4">
+                No tickets found
+              </TableCell>
+            </TableRow>
+          ) : (
+            tickets.map((ticket) => (
+              <TableRow key={ticket.ticket_id} className="text-center">
+                <TableCell className=" w-[200px]">{ticket.ticket_id}</TableCell>
+                <TableCell>{ticket.category_name}</TableCell>
+                <TableCell>
+                  {format(new Date(ticket.created_at), "d MMMM, yyyy")}
+                </TableCell>
+                <TableCell>{getStatusIcon(ticket.priority)}</TableCell>
+                <TableCell>{ticket.team_name}</TableCell>
+                <TableCell>
+                  {ticket.ticket_status.charAt(0).toUpperCase() +
+                    ticket.ticket_status.slice(1).toLowerCase()}
+                </TableCell>
+                <TableCell>
+                  {getAttachmentButton(ticket.telegram_attachment_id)}
+                </TableCell>
+                <TableCell className="max-w-[100px]">
+                  <TicketUpdateDrawer
+                    ticketID={ticket.ticket_id}
+                    ticketStatus={
+                      ticket.ticket_status.charAt(0).toUpperCase() +
+                      ticket.ticket_status.slice(1).toLowerCase()
+                    }
+                    priority={ticket.priority}
+                    platform={ticket.platform}
+                    reportedBy={ticket.reported_by}
+                    telegramChatID={ticket.telegram_chat_id}
+                    telegramMessageID={ticket.telegram_message_id}
+                    message={ticket.ticket_message}
+                    category={ticket.category_name}
+                    attachmentId={ticket.telegram_attachment_id}
+                    assignedTo={ticket.team_name}
+                    telegramUserId={ticket.telegram_user_id}
+                    reportedOn={ticket.created_at}
+                  />
+                </TableCell>
+              </TableRow>
+            ))
+          )}
         </TableBody>
       </Table>
     </div>

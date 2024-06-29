@@ -39,7 +39,7 @@ const ReportForm = () => {
         </DialogTrigger>
         <DialogContent className="sm:max-w-[425px]">
           <DialogHeader>
-            <DialogTitle>New Ticket</DialogTitle>
+            <DialogTitle>Create Ticket</DialogTitle>
           </DialogHeader>
           <ProfileForm />
         </DialogContent>
@@ -57,7 +57,7 @@ const ReportForm = () => {
       </DrawerTrigger>
       <DrawerContent>
         <DrawerHeader className="text-left">
-          <DrawerTitle>New Ticket</DrawerTitle>
+          <DrawerTitle>Create Ticket</DrawerTitle>
         </DrawerHeader>
         <ProfileForm className="px-4" />
         <DrawerFooter className="pt-2">

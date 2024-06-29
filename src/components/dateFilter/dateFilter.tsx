@@ -12,55 +12,59 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover";
 import { DateRange } from "react-day-picker";
-import { Dispatch, useState } from "react";
 
 interface DatePickerProps {
   className?: React.HTMLAttributes<HTMLDivElement>;
   date: DateRange | undefined;
-  setDate: Dispatch<React.SetStateAction<DateRange | undefined>>;
+  setDate: React.Dispatch<React.SetStateAction<DateRange | undefined>>;
 }
 
-const DateFilter = () => {
-  const [date, setDate] = useState<DateRange>();
+export default function DateFilter({
+  className,
+  date,
+  setDate,
+}: DatePickerProps) {
   return (
-    <Popover>
-      <PopoverTrigger asChild>
-        <Button
-          variant={"outline"}
-          className={cn(
-            "w-[280px] justify-start items-center text-left font-medium text-xs",
-            !date && "text-muted-foreground"
-          )}
-        >
-          <CalendarIcon className="mr-2 mb-0.5 h-4 w-4" />
-          {date?.from ? (
-            date.to ? (
-              <>
-                {format(date.from, "LLL dd, y")} -{" "}
-                {format(date.to, "LLL dd, y")}
-              </>
+    <div className={cn("grid gap-2", className)}>
+      <Popover>
+        <PopoverTrigger asChild>
+          <Button
+            id="date"
+            variant={"outline"}
+            className={cn(
+              "min-w-[300px] justify-start text-left font-normal",
+              !date && "text-muted-foreground"
+            )}
+          >
+            <CalendarIcon className="mr-2 h-4 w-4" />
+            {date?.from ? (
+              date.to ? (
+                <>
+                  {format(date.from, "EEE, LLL dd, y")} -{" "}
+                  {format(date.to, "EEE, LLL dd, y")}
+                </>
+              ) : (
+                format(date.from, "EEE, LLL dd, y")
+              )
             ) : (
-              format(date.from, "LLL dd, y")
-            )
-          ) : (
-            <span>Filter by date range</span>
-          )}
-        </Button>
-      </PopoverTrigger>
-      <PopoverContent className="w-auto p-0">
-        <Calendar
-          mode="range"
-          selected={date}
-          onSelect={setDate}
-          initialFocus
-          numberOfMonths={1}
-          disabled={{
-            after: new Date(),
-          }}
-        />
-      </PopoverContent>
-    </Popover>
+              <span>Pick a date</span>
+            )}
+          </Button>
+        </PopoverTrigger>
+        <PopoverContent className="w-auto p-0" align="start">
+          <Calendar
+            initialFocus
+            mode="range"
+            defaultMonth={date?.from}
+            selected={date}
+            onSelect={setDate}
+            numberOfMonths={1}
+            disabled={{
+              after: new Date(),
+            }}
+          />
+        </PopoverContent>
+      </Popover>
+    </div>
   );
-};
-
-export default DateFilter;
+}

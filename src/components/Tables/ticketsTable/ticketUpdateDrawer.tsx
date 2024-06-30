@@ -116,7 +116,7 @@ const TicketUpdateDrawer: React.FC<TicketUpdateDrawerProps> = ({
         <DrawerHeader className="text-left">
           <DrawerTitle>Ticket Information</DrawerTitle>
           <DrawerDescription>
-            Make changes to your profile here. Click save when you're done.
+            Make changes to your profile here. Click save when you are done.
           </DrawerDescription>
         </DrawerHeader>
         <TicketUpdateForm

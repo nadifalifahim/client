@@ -127,7 +127,7 @@ const SidebarLinks: React.FC<SidebarLinksProps> = ({ isExpanded }) => {
             {activeItem === label && isExpanded && (
               <ul className="px-4 w-full flex flex-col gap-1">
                 {subMenu?.map((subItem) => (
-                  <Link href={subItem.link}>
+                  <Link key={subItem.label} href={subItem.link}>
                     <li
                       key={subItem.label}
                       className={`py-2 px-4 rounded-lg hover:bg-slate-100 hover:text-sky-500 font-medium dark:hover:bg-slate-800 ${

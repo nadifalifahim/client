@@ -28,7 +28,6 @@ const TicketsTable = () => {
   useEffect(() => {
     // Fetch tickets whenever the fromDate, toDate, or statusFilterItem changes
     const fetchTickets = async () => {
-      setLoading(true);
       const fromDate = formatDate(date?.from);
       const toDate = formatDate(date?.to);
       console.log(date);
@@ -51,7 +50,6 @@ const TicketsTable = () => {
         console.error("Error fetching tickets:", error);
         setError("Failed to fetch tickets.");
       } finally {
-        setLoading(false);
       }
     };
 
@@ -153,7 +151,7 @@ const TicketsTable = () => {
 
         <div className="flex items-center  gap-2">
           <ReportForm />
-          <ExportToExcel></ExportToExcel>
+          <ExportToExcel data={filteredTickets} date={date}></ExportToExcel>
         </div>
       </div>
 

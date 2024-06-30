@@ -1,7 +1,7 @@
 import React, { useState, ChangeEvent } from "react";
 
 import { Button } from "@/components/ui/button";
-import { ChevronDown, Send, X } from "lucide-react";
+import { ChevronDown, Loader, Send, X } from "lucide-react";
 import { getStatusIcon } from "@/helpers/statusIcon";
 import { getPlatformIcon } from "@/helpers/platformIcon";
 import { getAttachmentButton } from "@/helpers/attachmentButton";
@@ -14,6 +14,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { format } from "date-fns";
+import axios from "axios";
 
 interface TicketUpdateFormProps {
   ticketID: string;
@@ -48,13 +49,61 @@ const TicketUpdateForm: React.FC<TicketUpdateFormProps> = ({
   reportedOn,
   setOpen, // Destructure setOpen
 }) => {
-  const [responseMessage, setResponseMessage] = React.useState("");
+  const [messageInput, setMessageInput] = React.useState("");
+  const [messageSendRequestActive, setMessageSendRequestActive] =
+    React.useState(false);
   const [responseTicketStatus, setResponseTicketStatus] =
     React.useState("In Progress");
 
   const handleResponseMessageChange = (e: ChangeEvent<HTMLTextAreaElement>) => {
-    setResponseMessage(e.target.value);
+    setMessageInput(e.target.value);
   };
+
+  const handleSendResponse = async () => {
+    setMessageSendRequestActive(true);
+    try {
+      // Step 1: Update the ticket status
+      const updateStatusResponse = await axios.post(
+        "http://localhost:4000/api/portal/tickets/update-status",
+        {
+          ticketId: ticketID,
+          status: responseTicketStatus.toLocaleLowerCase(),
+        }
+      );
+
+      console.log(updateStatusResponse);
+
+      if (updateStatusResponse.status === 200) {
+        // Step 2: Prepare the message to send
+        const messageToSend = `Hello ${reportedBy},\n\nYour ticket (${ticketID}) status has been set to "${responseTicketStatus}" by the ${assignedTo} team.${
+          messageInput
+            ? `\n\nThe team has provided the following message: \n\n"${messageInput}"\n\nThank you.`
+            : `\n\nThank you.`
+        }`;
+
+        // Step 3: Send the response message
+        const response = await axios.post(
+          "http://localhost:4000/api/telegram/reply",
+          {
+            message: messageToSend, // Use messageToSend directly
+            messageId: telegramMessageID,
+            telegramChatId: telegramChatID,
+          }
+        );
+
+        console.log("Response:", response.data);
+        setMessageSendRequestActive(false);
+        setOpen(false); // Close the form after sending the response
+      } else {
+        console.error("Failed to update the ticket status");
+        setMessageSendRequestActive(false);
+      }
+    } catch (error) {
+      console.error("Error sending POST request:", error);
+      setMessageSendRequestActive(false);
+    }
+  };
+
   return (
     <div className="flex gap-8 focus:outline-none">
       <div className="flex flex-col gap-4 w-full text-xs font-medium">
@@ -182,7 +231,7 @@ const TicketUpdateForm: React.FC<TicketUpdateFormProps> = ({
           <div className="flex gap-2 min-w-full">
             <textarea
               className="min-h-[100px] min-w-full p-2 border border-orange-400 focus:outline-none focus:shadow-md focus:shadow-orange-100 text-orange-500 rounded-lg"
-              value={responseMessage}
+              value={messageInput}
               onChange={handleResponseMessageChange}
             />
           </div>
@@ -198,10 +247,19 @@ const TicketUpdateForm: React.FC<TicketUpdateFormProps> = ({
             <X className="w-4 h-4 mr-2" /> Close
           </Button>
           <Button
-            type="submit"
+            type="button"
             className="w-full bg-orange-500 hover:bg-orange-600"
+            onClick={() => handleSendResponse()}
           >
-            <Send className="w-4 h-4 mr-2" /> Send Response
+            {!messageSendRequestActive ? (
+              <span className="flex items-center transition ease-in">
+                <Send className="w-4 h-4 mr-2" /> Send Response
+              </span>
+            ) : (
+              <span className="blink flex items-center transition ease-in">
+                <Loader className="w-5 h-5 mr-2" /> Sending Response
+              </span>
+            )}
           </Button>
         </div>
       </div>

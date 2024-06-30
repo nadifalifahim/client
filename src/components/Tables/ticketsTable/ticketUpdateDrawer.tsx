@@ -77,7 +77,7 @@ const TicketUpdateDrawer: React.FC<TicketUpdateDrawerProps> = ({
     return (
       <Dialog open={open} onOpenChange={setOpen}>
         <DialogTrigger asChild>{getTriggerButton()}</DialogTrigger>
-        <DialogContent className="sm:max-w-[500px]">
+        <DialogContent className="sm:max-w-[500px] dark:bg-slate-900 dark:border-2 dark:border-sky-900">
           <DialogHeader>
             <DialogTitle className="my-2">
               {" "}

@@ -64,7 +64,7 @@ const TicketUpdateForm: React.FC<TicketUpdateFormProps> = ({
     try {
       // Step 1: Update the ticket status
       const updateStatusResponse = await axios.post(
-        "http://localhost:4000/api/portal/tickets/update-status",
+        `${process.env.NEXT_PUBLIC_SERVER_URL}/api/portal/tickets/update-status`,
         {
           ticketId: ticketID,
           status: responseTicketStatus.toLocaleLowerCase(),
@@ -83,7 +83,7 @@ const TicketUpdateForm: React.FC<TicketUpdateFormProps> = ({
 
         // Step 3: Send the response message
         const response = await axios.post(
-          "http://localhost:4000/api/telegram/reply",
+          `${process.env.NEXT_PUBLIC_SERVER_URL}/api/telegram/reply`,
           {
             message: messageToSend, // Use messageToSend directly
             messageId: telegramMessageID,

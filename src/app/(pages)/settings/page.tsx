@@ -4,7 +4,6 @@ import { SettingsCard } from "@/components/Settings/settingCard/settingsCard";
 import NavigationMenu from "@/components/navigationMenu/navigationMenu";
 import NotificationBell from "@/components/notificationBell/notificationBell";
 import { User2, Users, Ticket, Tag, Settings } from "lucide-react";
-import { useState } from "react";
 
 const SettingsPage = () => {
   const settingsItems = [

@@ -33,7 +33,7 @@ const TicketsTable = () => {
       console.log(date);
       try {
         const response = await fetch(
-          `http://localhost:4000/api/portal/tickets?from=${fromDate}&to=${toDate}`
+          `${process.env.NEXT_PUBLIC_SERVER_URL}/api/portal/tickets?from=${fromDate}&to=${toDate}`
         );
 
         if (!response.ok) {

@@ -6,7 +6,7 @@ import axios from "axios";
 const fetchAttachmentLink = async (attachmentId: string) => {
   try {
     const response = await axios.post(
-      "http://localhost:4000/api/telegram/download-attachment",
+      `${process.env.NEXT_PUBLIC_SERVER_URL}/api/telegram/download-attachment`,
       { attachmentId }
     );
     return response.data.url; // Make sure the server response contains the `url` field

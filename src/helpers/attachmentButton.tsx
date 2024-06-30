@@ -7,7 +7,7 @@ export const getAttachmentButton = (attachmentLink: String) => {
   const downloadAttachment = async (attachmentId: String) => {
     try {
       const response = await axios.post(
-        "http://localhost:4000/api/telegram/download-attachment",
+        `${process.env.NEXT_PUBLIC_SERVER_URL}/api/telegram/download-attachment`,
         {
           attachmentId,
         }

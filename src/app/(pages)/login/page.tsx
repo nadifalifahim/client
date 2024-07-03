@@ -90,7 +90,13 @@ const frameworks = [
 
 const loginSchema = z.object({
   email: z.string().email().trim().toLowerCase(),
-  password: z.string().min(8),
+  password: z
+    .string({
+      message: "Password incorrect",
+    })
+    .min(8, {
+      message: "Password incorrect",
+    }),
 });
 
 const registrationSchema = z
@@ -107,7 +113,10 @@ const registrationSchema = z
       .max(10, { message: "Contact number must be 10 digits" })
       .trim(),
     password: z
-      .string()
+      .string({
+        message:
+          "Password must contain minimum eight characters, at least one upper case English letter, one lower case English letter, one number and one special character",
+      })
       .regex(
         /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$ %^&*-]).{8,}$/,
         {

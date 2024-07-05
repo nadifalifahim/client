@@ -1,4 +1,5 @@
 "use client";
+import withAuth from "@/components/Authentication/withAuth";
 import { SettingsCard } from "@/components/Settings/settingCard/settingsCard";
 import Topbar from "@/components/Topbar/topbar";
 import NavigationMenu from "@/components/navigationMenu/navigationMenu";
@@ -37,4 +38,4 @@ const SettingsPage = () => {
   );
 };
 
-export default SettingsPage;
+export default withAuth(SettingsPage);

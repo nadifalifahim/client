@@ -1,4 +1,5 @@
 "use client";
+import withAuth from "@/components/Authentication/withAuth";
 import CategoriesTable from "@/components/Categories/categoriesTable/categoriesTable";
 import CategoryForm from "@/components/Categories/categoryForm/categoryForm";
 import NavigationMenu from "@/components/navigationMenu/navigationMenu";
@@ -19,4 +20,4 @@ const ProjectsPage = () => {
   );
 };
 
-export default ProjectsPage;
+export default withAuth(ProjectsPage);

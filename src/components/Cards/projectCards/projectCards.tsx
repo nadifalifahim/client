@@ -27,7 +27,8 @@ const ProjectCards: FC<ProjectCardProps> = ({ data }) => {
     <Card className="min-w-[400px]">
       <CardHeader>
         <CardTitle className="flex items-center justify-between">
-          <p># {data.project_name}</p> <Switch />
+          <p># {data.project_name}</p>{" "}
+          <Switch className="data-[state=checked]:bg-sky-400" />
         </CardTitle>
         <CardDescription className="text-sm font-medium">
           ID: {data.project_id}

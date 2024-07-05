@@ -1,4 +1,5 @@
 "use client";
+import withAuth from "@/components/Authentication/withAuth";
 import NavigationMenu from "@/components/navigationMenu/navigationMenu";
 
 const Dashboard = () => {
@@ -9,4 +10,4 @@ const Dashboard = () => {
   );
 };
 
-export default Dashboard;
+export default withAuth(Dashboard);

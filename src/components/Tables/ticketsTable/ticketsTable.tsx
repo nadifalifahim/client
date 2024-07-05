@@ -1,3 +1,5 @@
+"use client";
+
 import TableConfiguration from "./tableConfiguration";
 import ReportForm from "@/components/Buttons/reportButton/reportForm";
 import ExportToExcel from "@/components/Buttons/exportToExcel/exportToExcel";

@@ -1,12 +1,13 @@
 "use client";
 
+import withAuth from "@/components/Authentication/withAuth";
 import DarkModeSwitch from "@/components/Buttons/darkModeSwitch/darkModeSwitch";
 import SearchTickets from "@/components/Buttons/searchTickets/searchTickets";
 import TicketsTable from "@/components/Tables/ticketsTable/ticketsTable";
 import NavigationMenu from "@/components/navigationMenu/navigationMenu";
 import NotificationBell from "@/components/notificationBell/notificationBell";
 
-export default function Home() {
+const Projects = () => {
   return (
     <div className="flex w-screen bg-slate-50 dark:bg-slate-900 transition-all duration-200 ease-in delay-100">
       <NavigationMenu />
@@ -24,4 +25,6 @@ export default function Home() {
       </div>
     </div>
   );
-}
+};
+
+export default withAuth(Projects);

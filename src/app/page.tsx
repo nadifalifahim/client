@@ -20,8 +20,6 @@ const RedirectPage = () => {
         );
 
         if (response.status === 200) {
-          const full_name = response.data.full_name;
-          localStorage.setItem("full_name", full_name);
           router.push("/projects");
         } else {
           router.push(`/login`);

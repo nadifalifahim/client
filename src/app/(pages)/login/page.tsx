@@ -180,6 +180,9 @@ const LoginHandler = () => {
           </div>
         ),
       });
+      console.log(response.data);
+      const full_name = response.data.full_name;
+      localStorage.setItem("full_name", full_name);
       router.push("/");
     } catch (error) {
       console.error("Login error:", (error as any)?.response.data.error);

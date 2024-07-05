@@ -9,6 +9,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
+import Link from "next/link";
 
 interface CardData {
   project_id: string;
@@ -36,9 +37,14 @@ const ProjectCards: FC<ProjectCardProps> = ({ data }) => {
         <p className="text-sm font-medium">{data.project_description}</p>
       </CardContent>
       <CardFooter className="flex gap-2">
-        <Button variant="secondary" className="w-full">
-          Manage Project
-        </Button>
+        <Link
+          href={`/settings/projects/${data.project_id.toLocaleLowerCase()}`}
+          className="w-full"
+        >
+          <Button variant="secondary" className="w-full">
+            Manage Project
+          </Button>
+        </Link>
         {/* <Button variant="secondary">
           <CircleAlertIcon className="w-4 text-orange-500 mr-2"></CircleAlertIcon>
           Link Telegram

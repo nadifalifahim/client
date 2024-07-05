@@ -20,9 +20,9 @@ const SettingsPage = () => {
   return (
     <div className="flex w-screen bg-slate-50 dark:bg-slate-900 transition-all duration-200 ease-in delay-100">
       <NavigationMenu />
-      <div className="flex flex-col  w-full items-center ">
+      <div className="flex flex-col w-full items-center ">
         <Topbar icon={Settings} pageName="Configuration" />
-        <div className="flex w-full h-full justify-center items-center gap-6">
+        <div className="flex w-full h-full justify-center items-center gap-6 flex-wrap">
           {settingsItems.map((item, index) => (
             <SettingsCard
               key={index}

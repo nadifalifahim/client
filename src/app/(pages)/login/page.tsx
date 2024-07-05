@@ -1,5 +1,4 @@
 "use client";
-const host = process.env.NEXT_PUBLIC_HOST;
 
 import { Button } from "@/components/ui/button";
 import {
@@ -101,13 +100,13 @@ const loginSchema = z.object({
 
 const registrationSchema = z
   .object({
-    full_name: z
+    fullName: z
       .string()
       .min(2, { message: "Name must be atleast 2 characters long" })
       .max(50, { message: "Max 50 characters allowed" })
       .trim(),
     email: z.string().email().trim().toLowerCase(),
-    contact_number: z
+    contactNumber: z
       .string()
       .min(10, { message: "Contact number must be 10 digits" })
       .max(10, { message: "Contact number must be 10 digits" })
@@ -139,9 +138,9 @@ const LoginHandler = () => {
   const form = useForm<z.infer<typeof registrationSchema>>({
     resolver: zodResolver(registrationSchema),
     defaultValues: {
-      full_name: "",
+      fullName: "",
       email: "",
-      contact_number: "",
+      contactNumber: "",
       password: "",
       confirmPassword: "",
     },
@@ -157,13 +156,16 @@ const LoginHandler = () => {
 
   const onLoginSubmit = async (values: z.infer<typeof loginSchema>) => {
     try {
-      const response = await axios.post(`${host}/login`, values, {
-        withCredentials: true,
-        headers: {
-          "ngrok-skip-browser-warning": "true",
-          "Content-Type": "application/json", // Ensure the content type is set
-        },
-      });
+      const response = await axios.post(
+        `${process.env.NEXT_PUBLIC_SERVER_URL}/api/auth/login`,
+        values,
+        {
+          withCredentials: true,
+          headers: {
+            "Content-Type": "application/json", // Ensure the content type is set
+          },
+        }
+      );
 
       toast({
         action: (
@@ -199,10 +201,10 @@ const LoginHandler = () => {
   };
 
   function onSubmit(values: z.infer<typeof registrationSchema>) {
-    // const token = localStorage.getItem("token"); // Retrieve JWT token from local storage or wherever it's stored
+    const token = localStorage.getItem("token"); // Retrieve JWT token from local storage or wherever it's stored
 
     axios
-      .post(`${host}/register`, values, {
+      .post(`${process.env.NEXT_PUBLIC_SERVER_URL}/api/auth/register`, values, {
         withCredentials: true,
       })
       .then((response) => {
@@ -326,7 +328,7 @@ const LoginHandler = () => {
                       {" "}
                       <FormField
                         control={form.control}
-                        name="full_name"
+                        name="fullName"
                         render={({ field }) => (
                           <FormItem>
                             <FormLabel>Name</FormLabel>
@@ -352,7 +354,7 @@ const LoginHandler = () => {
                       />
                       <FormField
                         control={form.control}
-                        name="contact_number"
+                        name="contactNumber"
                         render={({ field }) => (
                           <FormItem>
                             <FormLabel>Contact Number</FormLabel>

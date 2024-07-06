@@ -24,11 +24,11 @@ const CategoriesTable = () => {
   //   const [keywords] = getKeywords("/issue-config");
 
   return (
-    <div className="mx-10 mt-5">
-      <Table>
+    <div className="flex  mt-5 ">
+      <Table className="rounded-lg bg-white dark:bg-slate-700 drop-shadow-lg  backdrop-blur  min-w-full ">
         <TableHeader>
           <TableRow>
-            <TableHead className="w-[200px]">Keyword</TableHead>
+            <TableHead>Keyword</TableHead>
             <TableHead>Issue Category</TableHead>
             <TableHead>Responsible Person</TableHead>
             <TableHead className="text-center">Priority</TableHead>

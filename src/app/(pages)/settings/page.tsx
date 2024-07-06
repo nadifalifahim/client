@@ -38,4 +38,4 @@ const SettingsPage = () => {
   );
 };
 
-export default withAuth(SettingsPage);
+export default SettingsPage;

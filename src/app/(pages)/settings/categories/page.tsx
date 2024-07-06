@@ -8,11 +8,11 @@ const ProjectsPage = () => {
   return (
     <div className="flex w-screen bg-slate-50 dark:bg-slate-900 transition-all duration-200 ease-in delay-100">
       <NavigationMenu />
-      <div>
+      <div className="w-full">
         <div className="flex justify-end mt-5 mr-10">
           <CategoryForm></CategoryForm>
         </div>
-        <div>
+        <div className=" mx-10">
           <CategoriesTable></CategoriesTable>
         </div>
       </div>
@@ -20,4 +20,4 @@ const ProjectsPage = () => {
   );
 };
 
-export default withAuth(ProjectsPage);
+export default ProjectsPage;

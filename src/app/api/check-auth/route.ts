@@ -13,10 +13,8 @@ export async function POST(req: NextRequest) {
         },
       }
     );
-
     if (response.status === 200) {
-      const full_name = response.data.full_name;
-      return NextResponse.json({ authenticated: true, full_name });
+      return NextResponse.json({ authenticated: true });
     } else {
       return NextResponse.json({ authenticated: false }, { status: 401 });
     }

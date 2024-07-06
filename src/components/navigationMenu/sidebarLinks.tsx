@@ -13,9 +13,39 @@ import {
 import { NavItem } from "@/lib/types";
 import { usePathname } from "next/navigation";
 
+interface ProjectSubMenuItem {
+  project_name: string;
+  project_id: string;
+}
+
 const SidebarLinks: React.FC<SidebarLinksProps> = ({ isExpanded }) => {
   const [activeItem, setActiveItem] = useState<string | null>(null);
   const currentPath = usePathname();
+
+  const [projectSubMenu, setProjectSubMenu] = useState([]);
+
+  useEffect(() => {
+    // Step 2: Fetch the submenu items from the API
+    const fetchSubMenuItems = async () => {
+      try {
+        const response = await fetch(
+          `${process.env.NEXT_PUBLIC_SERVER_URL}/api/portal/projects`
+        ); // Replace with your API endpoint
+        const data = await response.json();
+        console.log(data);
+        const transformedData = data.map((item: ProjectSubMenuItem) => ({
+          label: `# ${item.project_name}`,
+          link: `/projects/${item.project_id.toLocaleLowerCase()}`,
+        }));
+
+        setProjectSubMenu(transformedData);
+      } catch (error) {
+        console.error("Error fetching submenu items:", error);
+      }
+    };
+
+    fetchSubMenuItems();
+  }, []);
 
   const navItems: NavItem[] = [
     {
@@ -31,11 +61,7 @@ const SidebarLinks: React.FC<SidebarLinksProps> = ({ isExpanded }) => {
       icon: Zap,
       label: "Projects",
       link: "/projects",
-      subMenu: [
-        { label: "All Projects", link: "/projects/all" },
-        { label: "Dexter Telegram", link: "/projects/my-projects" },
-        { label: "Biponon Telegram", link: "/projects/archived" },
-      ],
+      subMenu: projectSubMenu,
     },
     {
       icon: Settings,

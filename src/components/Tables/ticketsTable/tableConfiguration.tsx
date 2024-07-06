@@ -21,6 +21,7 @@ import { getStatusIcon } from "../../../helpers/statusIcon";
 import TicketUpdateDrawer from "./ticketUpdateDrawer";
 import { getAttachmentButton } from "@/helpers/attachmentButton";
 import { format } from "date-fns";
+import { getPriorityIcon } from "@/helpers/priorityIcon";
 
 interface TableConfigurationProps {
   tickets: any[];
@@ -64,9 +65,9 @@ const TableConfiguration = ({
             <TableHead className="text-center  w-[200px]">#Ticket ID</TableHead>
             <TableHead className="text-center">Category</TableHead>
             <TableHead className="text-center">Reported on</TableHead>
-            <TableHead className="text-center">Priority</TableHead>
-            <TableHead className="text-center">Assigned to</TableHead>
             <TableHead className="text-center">Status</TableHead>
+            <TableHead className="text-center">Assigned to</TableHead>
+            <TableHead className="text-center">Priority</TableHead>
             <TableHead className="text-center">Attachment</TableHead>
             <TableHead className="text-center">Actions</TableHead>
           </TableRow>
@@ -83,16 +84,17 @@ const TableConfiguration = ({
               <TableRow key={ticket.ticket_id} className="text-center">
                 <TableCell className=" w-[200px]">{ticket.ticket_id}</TableCell>
                 <TableCell>{ticket.category_name}</TableCell>
-                <TableCell>
+                <TableCell className=" w-[180px]">
                   {format(new Date(ticket.created_at), "d MMMM, yyyy")}
                 </TableCell>
-                <TableCell>{getStatusIcon(ticket.priority)}</TableCell>
-                <TableCell>{ticket.team_name}</TableCell>
-                <TableCell>
-                  {ticket.ticket_status.charAt(0).toUpperCase() +
-                    ticket.ticket_status.slice(1).toLowerCase()}
+                <TableCell className=" w-[180px]">
+                  {getStatusIcon(ticket.ticket_status)}
                 </TableCell>
-                <TableCell>
+                <TableCell>{ticket.team_name}</TableCell>
+                <TableCell className=" w-[180px]">
+                  {getPriorityIcon(ticket.priority)}
+                </TableCell>
+                <TableCell className=" w-[150px]">
                   {getAttachmentButton(ticket.telegram_attachment_id)}
                 </TableCell>
                 <TableCell className="max-w-[100px]">

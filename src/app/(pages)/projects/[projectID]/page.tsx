@@ -3,9 +3,9 @@
 import withAuth from "@/components/Authentication/withAuth";
 import DarkModeSwitch from "@/components/Buttons/darkModeSwitch/darkModeSwitch";
 import SearchTickets from "@/components/Buttons/searchTickets/searchTickets";
+import TicketsTable from "@/components/Tables/ticketsTable/ticketsTable";
 import NavigationMenu from "@/components/navigationMenu/navigationMenu";
 import NotificationBell from "@/components/notificationBell/notificationBell";
-import ProjectsList from "@/components/Projects/projectsList/projectsList";
 
 const Projects = () => {
   return (
@@ -13,7 +13,7 @@ const Projects = () => {
       <NavigationMenu />
       <div className="grow mx-10 mt-4">
         <div className="flex items-center justify-between">
-          <span className="font-bold text-2xl"># Projects</span>
+          <span className="font-bold text-2xl"># Dexter Telegram</span>
 
           <SearchTickets></SearchTickets>
           <div className="flex items-center gap-1">
@@ -21,9 +21,7 @@ const Projects = () => {
             <DarkModeSwitch></DarkModeSwitch>
           </div>
         </div>
-        <div className="mt-10">
-          <ProjectsList></ProjectsList>
-        </div>
+        <TicketsTable></TicketsTable>
       </div>
     </div>
   );

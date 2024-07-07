@@ -131,7 +131,7 @@ const CategoryForm = () => {
                     render={({ field }) => {
                       return (
                         <FormItem>
-                          <FormLabel>Issue Type Name</FormLabel>
+                          <FormLabel>Issue Type</FormLabel>
                           <FormControl>
                             <Input
                               placeholder=""
@@ -152,7 +152,7 @@ const CategoryForm = () => {
                     render={({ field }) => {
                       return (
                         <FormItem>
-                          <FormLabel>Responsible Person</FormLabel>
+                          <FormLabel>Responsible Team</FormLabel>
                           <FormControl>
                             <Input
                               placeholder=""

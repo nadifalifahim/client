@@ -9,6 +9,7 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import Link from "next/link";
+import { Folder } from "lucide-react";
 
 interface CardData {
   project_id: string;
@@ -23,37 +24,38 @@ interface ProjectCardProps {
 }
 const ProjectCards: FC<ProjectCardProps> = ({ data }) => {
   return (
-    <Card>
-      <CardHeader>
-        <CardTitle className="flex items-center justify-between">
-          <p># {data.project_name}</p>{" "}
-        </CardTitle>
-        <CardDescription className="text-sm font-medium">
-          ID: {data.project_id}
-        </CardDescription>
-      </CardHeader>
-      <CardContent>
-        <p className="text-sm font-medium">{data.project_description}</p>
-      </CardContent>
-      <CardFooter className="flex gap-2">
-        <Link
-          href={`/projects/${data.project_id.toLocaleLowerCase()}`}
-          className="w-full"
-        >
-          <Button variant="secondary" className="w-full">
-            View Project
-          </Button>
-        </Link>
-        {/* <Button variant="secondary">
-          <CircleAlertIcon className="w-4 text-orange-500 mr-2"></CircleAlertIcon>
-          Link Telegram
-        </Button>
-        <Button disabled variant="secondary">
-          <CircleAlertIcon className="w-4 text-orange-500 mr-2"></CircleAlertIcon>
-          Link Whatsapp
-        </Button> */}
-      </CardFooter>
-    </Card>
+    <Link
+      href={`/projects/${data.project_id.toLocaleLowerCase()}-${
+        data.project_name
+      }`}
+      className="w-full"
+    >
+      <Card className="flex justify-between shadow-md hover:drop-shadow-lg transition group">
+        <div className="flex items-center justify-center w-1/3">
+          <div className="flex items-center justify-center rounded-full bg-slate-100 w-[100px] h-[100px] group-hover:bg-sky-400 transition">
+            <Folder className="w-10 h-10 text-slate-300 group-hover:text-white transition" />
+          </div>
+        </div>
+        <div>
+          <CardHeader className="pl-0">
+            <CardTitle className="flex items-center justify-between group-hover:text-sky-400 transition">
+              <p># {data.project_name}</p>{" "}
+            </CardTitle>
+            <CardDescription className="text-sm font-medium">
+              ID: {data.project_id}
+            </CardDescription>
+          </CardHeader>
+          <CardContent className="pl-0">
+            <p className="text-sm font-medium">{data.project_description}</p>
+          </CardContent>
+          <CardFooter className="flex gap-2 pl-0">
+            <Button variant="secondary" className="w-full">
+              View Project
+            </Button>
+          </CardFooter>
+        </div>
+      </Card>
+    </Link>
   );
 };
 

@@ -16,6 +16,7 @@ import { usePathname } from "next/navigation";
 interface ProjectSubMenuItem {
   project_name: string;
   project_id: string;
+  project_status: string;
 }
 
 const SidebarLinks: React.FC<SidebarLinksProps> = ({ isExpanded }) => {
@@ -33,10 +34,16 @@ const SidebarLinks: React.FC<SidebarLinksProps> = ({ isExpanded }) => {
         ); // Replace with your API endpoint
         const data = await response.json();
         console.log(data);
-        const transformedData = data.map((item: ProjectSubMenuItem) => ({
-          label: `# ${item.project_name}`,
-          link: `/projects/${item.project_id.toLocaleLowerCase()}`,
-        }));
+        const transformedData = data
+          .filter(
+            (item: ProjectSubMenuItem) => item.project_status === "active"
+          )
+          .map((item: ProjectSubMenuItem) => ({
+            label: `# ${item.project_name}`,
+            link: `/projects/${item.project_id.toLocaleLowerCase()}-${
+              item.project_name
+            }`,
+          }));
 
         setProjectSubMenu(transformedData);
       } catch (error) {

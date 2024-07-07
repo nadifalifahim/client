@@ -17,7 +17,11 @@ const formatDate = (date: Date | undefined) => {
   return `${year}-${month}-${day}`;
 };
 
-const TicketsTable = () => {
+interface TicketsTableProps {
+  projId: string;
+}
+
+const TicketsTable: React.FC<TicketsTableProps> = ({ projId }) => {
   const [statusFilterItem, setStatusFilterItem] = useState("all");
   const [date, setDate] = useState<DateRange | undefined>({
     from: new Date(),
@@ -32,10 +36,10 @@ const TicketsTable = () => {
     const fetchTickets = async () => {
       const fromDate = formatDate(date?.from);
       const toDate = formatDate(date?.to);
-      console.log(date);
+
       try {
         const response = await fetch(
-          `${process.env.NEXT_PUBLIC_SERVER_URL}/api/portal/tickets?from=${fromDate}&to=${toDate}`
+          `${process.env.NEXT_PUBLIC_SERVER_URL}/api/portal/tickets?from=${fromDate}&to=${toDate}&projectID=${projId}`
         );
 
         if (!response.ok) {

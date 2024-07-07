@@ -15,6 +15,7 @@ interface CardData {
   project_id: string;
   project_name: string;
   project_description: string;
+  project_status: string;
   created_at: Date;
   updated_at: Date;
 }
@@ -28,7 +29,10 @@ const ProjectCards: FC<ProjectCardProps> = ({ data }) => {
       <CardHeader>
         <CardTitle className="flex items-center justify-between">
           <p># {data.project_name}</p>{" "}
-          <Switch className="data-[state=checked]:bg-sky-400" />
+          <Switch
+            className="data-[state=checked]:bg-sky-400"
+            checked={data.project_status === "active" ? true : false}
+          />
         </CardTitle>
         <CardDescription className="text-sm font-medium">
           ID: {data.project_id}

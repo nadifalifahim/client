@@ -1,4 +1,4 @@
-import React, { useState, ChangeEvent } from "react";
+import React, { ChangeEvent } from "react";
 
 import { Button } from "@/components/ui/button";
 import { ChevronDown, Loader, Send, X } from "lucide-react";
@@ -15,6 +15,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { format } from "date-fns";
 import axios from "axios";
+import { getPriorityIcon } from "@/helpers/priorityIcon";
 
 interface TicketUpdateFormProps {
   ticketID: string;
@@ -117,9 +118,7 @@ const TicketUpdateForm: React.FC<TicketUpdateFormProps> = ({
         <div className="flex items-center">
           <span className="text-slate-500 min-w-[100px]">Status</span>
           <div className="flex items-center gap-2">
-            <span className="rounded-full bg-slate-100 dark:bg-slate-800 px-6 py-1">
-              {ticketStatus}
-            </span>
+            <span>{getStatusIcon(ticketStatus.toLocaleLowerCase())}</span>
             {ticketStatus === "Closed" ? (
               <span className="flex items-center rounded-full bg-slate-100 dark:bg-slate-800 pl-6 pr-5 py-1 text-slate-400">
                 Closed On 20 July, 2024
@@ -132,7 +131,7 @@ const TicketUpdateForm: React.FC<TicketUpdateFormProps> = ({
 
         <div className="flex items-center">
           <span className="text-slate-500 min-w-[100px]">Priority</span>
-          <span>{getStatusIcon(priority)}</span>
+          <span>{getPriorityIcon(priority)}</span>
         </div>
 
         <div className="flex items-center">

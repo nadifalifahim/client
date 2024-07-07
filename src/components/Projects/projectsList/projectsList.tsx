@@ -1,8 +1,17 @@
 import { useEffect, useState } from "react";
 import ProjectCards from "../projectCards/projectCards";
 
+interface ProjectCard {
+  project_id: string;
+  project_name: string;
+  project_status: "active" | "inactive"; // Assuming project_status can be 'active' or 'inactive'
+  project_description: string;
+  created_at: Date;
+  updated_at: Date;
+}
+
 const ProjectsList = () => {
-  const [cards, setCards] = useState([]);
+  const [cards, setCards] = useState<ProjectCard[]>([]);
 
   useEffect(() => {
     const fetchCards = async () => {
@@ -23,10 +32,12 @@ const ProjectsList = () => {
 
   return (
     <div className="mx-auto my-auto">
-      <div className="grid md:grid-cols-3 gap-8">
-        {cards.map((card, index) => (
-          <ProjectCards key={index} data={card} />
-        ))}
+      <div className="grid grid-cols-1 sm:grid-cols-3 gap-8">
+        {cards
+          .filter((item) => item.project_status === "active")
+          .map((card, index) => (
+            <ProjectCards key={index} data={card} />
+          ))}
       </div>
     </div>
   );

@@ -21,16 +21,20 @@ interface TicketsTableProps {
   projId: string;
 }
 
-// Define the type for category counts
-interface CategoryCount {
-  [key: string]: number;
-}
+// Define the structure of a ticket
+type Ticket = {
+  category_name: string;
+  // Add other necessary fields if needed
+};
 
-// Define the type for sorted categories
-interface SortedCategory {
+// Define the accumulator type for counting categories
+type CategoryCount = Record<string, number>;
+
+// Define the structure for sorted category data
+type SortedCategory = {
   category_name: string;
   count: number;
-}
+};
 
 const TicketsTable: React.FC<TicketsTableProps> = ({ projId }) => {
   const [statusFilterItem, setStatusFilterItem] = useState("all");
@@ -41,7 +45,9 @@ const TicketsTable: React.FC<TicketsTableProps> = ({ projId }) => {
   const [filteredTickets, setFilteredTickets] = useState<any[]>([]);
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
-  const [sortedCategories, setSortedCategories] = useState([]);
+  const [sortedCategories, setSortedCategories] = useState<SortedCategory[]>(
+    []
+  );
 
   useEffect(() => {
     // Fetch tickets whenever the fromDate, toDate, or statusFilterItem changes
@@ -63,10 +69,13 @@ const TicketsTable: React.FC<TicketsTableProps> = ({ projId }) => {
         setError(null); // Clear any previous error
         console.log(tickets);
         // Step 1: Count occurrences of each category
-        const categoryCount: CategoryCount = data.reduce((acc, ticket) => {
-          acc[ticket.category_name] = (acc[ticket.category_name] || 0) + 1;
-          return acc;
-        }, {} as CategoryCount);
+        const categoryCount: CategoryCount = data.reduce(
+          (acc: CategoryCount, ticket: Ticket) => {
+            acc[ticket.category_name] = (acc[ticket.category_name] || 0) + 1;
+            return acc;
+          },
+          {} as CategoryCount
+        );
 
         // Step 2: Convert to an array and sort in descending order
         const sorted: SortedCategory[] = Object.entries(categoryCount)
@@ -88,8 +97,9 @@ const TicketsTable: React.FC<TicketsTableProps> = ({ projId }) => {
   }, [date?.from, date?.to, statusFilterItem]);
 
   const [filterApplied, setFilterApplied] = useState(false);
-  const [selectedCategory, setSelectedCategory] = useState(null);
-  const handleCategoryClick = (category) => {
+  const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
+
+  const handleCategoryClick = (category: string) => {
     if (filterApplied && selectedCategory === category) {
       // If the same category is clicked again, remove the filter
       setFilterApplied(false);

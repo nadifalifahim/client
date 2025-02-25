@@ -66,7 +66,7 @@ const TableConfiguration = ({
             <TableHead className="text-center">Category</TableHead>
             <TableHead className="text-center">Reported on</TableHead>
             <TableHead className="text-center">Status</TableHead>
-            <TableHead className="text-center">Assigned to</TableHead>
+            <TableHead className="text-center">Message</TableHead>
             <TableHead className="text-center">Priority</TableHead>
             <TableHead className="text-center">Attachment</TableHead>
             <TableHead className="text-center">Actions</TableHead>
@@ -90,7 +90,11 @@ const TableConfiguration = ({
                 <TableCell className=" w-[180px]">
                   {getStatusIcon(ticket.ticket_status)}
                 </TableCell>
-                <TableCell>{ticket.team_name}</TableCell>
+                <TableCell>
+                  {ticket.ticket_message.length > 200
+                    ? `${ticket.ticket_message.slice(0, 200)}...`
+                    : ticket.ticket_message}
+                </TableCell>
                 <TableCell className=" w-[180px]">
                   {getPriorityIcon(ticket.priority)}
                 </TableCell>

@@ -91,9 +91,12 @@ const TableConfiguration = ({
                   {getStatusIcon(ticket.ticket_status)}
                 </TableCell>
                 <TableCell>
-                  {ticket.ticket_message.length > 200
-                    ? `${ticket.ticket_message.slice(0, 200)}...`
-                    : ticket.ticket_message}
+                  {ticket.ticket_message
+                    ? ticket.ticket_message.length > 200
+                      ? `${ticket.ticket_message.slice(0, 200)}...`
+                      : ticket.ticket_message
+                    : "No message available"}{" "}
+                  {/* Fallback text */}
                 </TableCell>
                 <TableCell className=" w-[180px]">
                   {getPriorityIcon(ticket.priority)}

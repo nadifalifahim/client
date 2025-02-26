@@ -167,7 +167,7 @@ const TicketUpdateForm: React.FC<TicketUpdateFormProps> = ({
 
         <div className="flex flex-col gap-2">
           <span className="text-xs text-slate-500">Message</span>
-          <div className="border rounded-lg min-h-[100px] p-2 bg-slate-100 dark:bg-slate-800">
+          <div className="border rounded-lg h-[100px] w-full p-2 bg-slate-100 dark:bg-slate-800 overflow-auto">
             {message}
           </div>
         </div>
